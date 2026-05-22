@@ -1,0 +1,33 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.orig
+
+# Runtime caches
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node/Python dependency folders if helper tooling is added later
+node_modules/
+.venv/
+venv/
+
+# Build outputs for future examples or generated packages
+dist/
+build/
+out/
+
+# Keep .codex skill-system governance artifacts tracked intentionally.
+# If this repo is later used inside a live firmware project, ignore project-local
+# runtime artifacts in that firmware project instead of this architecture repo.

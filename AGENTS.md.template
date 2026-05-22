@@ -1,0 +1,36 @@
+# Firmware Skills Agent Rules
+
+Use this template as an always-on project instruction file when installing or developing the firmware skills.
+
+## Core Rules
+
+- Do not claim firmware work is complete without verification evidence and a change record.
+- Do not treat build success as complete firmware validation.
+- Do not silently change behavior during refactor.
+- Do not ignore board, MCU, SDK, toolchain, flash/debug, RTOS, memory, timing, or hardware constraints.
+- Do not overwrite user changes.
+- Keep `brief/project-brief.md` current enough for a new maintainer or agent to take over.
+- Use `fw-skill-governance` for any skill addition, removal, rename, trigger change, artifact schema change, terminal-status change, or user-facing workflow change.
+
+## Required Artifact Discipline
+
+Firmware project work should use:
+
+```text
+.codex/artifacts/firmware/
+```
+
+Skill-system maintenance should update:
+
+```text
+.codex/artifacts/firmware/skill-system/
+references/skill-registry.md
+CHANGELOG.md
+README.md
+```
+
+## Version Discipline
+
+- Major: breaking routing, skill names, required artifact schema, terminal status, or workflow order.
+- Minor: compatible new skill, optional artifact, optional workflow branch, or skippable check.
+- Patch: wording, examples, trigger clarification, or typo fixes without behavior/schema change.

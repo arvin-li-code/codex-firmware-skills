@@ -1,6 +1,6 @@
 # Firmware Skills Architecture
 
-Current architecture version: `0.5.0`
+Current architecture version: `0.6.0`
 
 固件自动迭代 skill 系统，参考 `Jason-chen-coder/dev-skills` 的组织方式设计：
 
@@ -37,7 +37,7 @@ Current architecture version: `0.5.0`
 | `fw-arch-plan` | 为复杂功能、新项目或高风险重构生成架构方案 |
 | `fw-new-project` | 从零创建固件项目骨架 |
 | `fw-feature-iterate` | 在已有固件项目中迭代功能 |
-| `fw-build-runner` | 全局编译/重新编译/烧录/编译加烧录工具，支持一个仓库多个工程入口 |
+| `fw-build-runner` | 全局编译/重新编译/烧录/编译加烧录工具，支持 Keil MDK/uVision 和一个仓库多个工程入口 |
 | `fw-refactor` | 在行为不变的前提下重构已有固件 |
 | `fw-debug-fix` | 假设驱动地复现、定位、修复固件问题 |
 | `fw-verify` | 固件完成前的构建、测试、硬件证据门禁 |

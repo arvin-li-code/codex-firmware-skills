@@ -140,6 +140,83 @@ Notes:
 
 - Do not invent flash commands without board, probe, and binary path.
 
+## Keil MDK / uVision
+
+Indicators:
+
+- `.uvprojx`
+- `.uvproj`
+- `.uvoptx`
+- `.uvopt`
+- `Listings/`
+- `Objects/`
+- `RTE/`
+
+Common executable:
+
+```powershell
+C:\Keil_v5\UV4\UV4.exe
+```
+
+Other installations may place `UV4.exe` elsewhere. If the path is not known, look for:
+
+- Project docs.
+- Environment variables.
+- Common install paths such as `C:\Keil_v5\UV4\UV4.exe`.
+- User-provided Keil path.
+
+Commands:
+
+```powershell
+UV4.exe -b <project.uvprojx> -j0 -o <build.log>
+UV4.exe -r <project.uvprojx> -j0 -o <rebuild.log>
+UV4.exe -f <project.uvprojx> -j0 -o <flash.log>
+```
+
+Mode mapping:
+
+| Mode | Keil command |
+|---|---|
+| `build` | `UV4.exe -b <project.uvprojx> -j0 -o <build.log>` |
+| `rebuild` | `UV4.exe -r <project.uvprojx> -j0 -o <rebuild.log>` |
+| `flash` | `UV4.exe -f <project.uvprojx> -j0 -o <flash.log>` |
+| `build-flash` | run `-b`, then run `-f` only if build succeeds |
+
+Target selection:
+
+- A Keil project may contain multiple targets.
+- If the user names a target, pass it using the Keil-supported target option for the installed version.
+- If multiple targets exist and the intended one is unclear, ask the user.
+- Do not assume the first target is safe for flashing.
+
+Before flashing:
+
+- Confirm the project file.
+- Confirm the Keil target.
+- Confirm the connected board.
+- Confirm the debug adapter or programmer, such as ST-Link, J-Link, ULINK, CMSIS-DAP, or DAPLink.
+- Confirm that the Keil project already has flash algorithm/debug settings configured.
+
+Failure classes:
+
+- `KEIL_UV4_MISSING`
+- `KEIL_TARGET_AMBIGUOUS`
+- `KEIL_LICENSE_ERROR`
+- `KEIL_PACK_MISSING`
+- `KEIL_INCLUDE_PATH_ERROR`
+- `KEIL_COMPILE_ERROR`
+- `KEIL_LINK_ERROR`
+- `KEIL_FLASH_ALGORITHM_ERROR`
+- `KEIL_DEBUG_ADAPTER_MISSING`
+- `KEIL_FLASH_FAILED`
+
+Notes:
+
+- Prefer Keil command-line build when `.uvprojx` or `.uvproj` is the primary project file.
+- For CI or headless machines, license and pack availability are common blockers.
+- For flashing, Keil usually depends on debug settings saved in `.uvoptx` or project options.
+- If command-line flash is unreliable, ask whether to use J-Link, STM32_Programmer_CLI, pyOCD, or OpenOCD instead.
+
 ## Custom Scripts
 
 Indicators:

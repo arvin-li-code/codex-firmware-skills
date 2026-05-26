@@ -1,5 +1,37 @@
 # Skill-System Changelog
 
+## 2026-05-26 - Add Keil MDK/uVision build and flash support
+
+Version impact: Minor
+Previous version: 0.5.0
+Next version: 0.6.0
+
+Changed skills:
+
+- `fw-build-runner`: added Keil project detection, command mapping, target confirmation, adapter confirmation, and Keil failure classes.
+
+Reason:
+
+- Keil MDK/uVision is a common firmware build and flashing environment and should be a first-class profile.
+
+Affected workflows:
+
+- Build.
+- Rebuild.
+- Flash.
+- Build then flash.
+- Verification.
+
+Artifact impact:
+
+- Updated `references/build-flash-profiles.md`.
+- Added `.codex/artifacts/firmware/skill-system/version-decision-keil-build-flash-support.md`.
+
+Migration notes:
+
+- Use `UV4.exe -b` for build, `UV4.exe -r` for rebuild, and `UV4.exe -f` for flash when Keil is the selected tool.
+- Ask before flashing when the Keil target, connected board, or debug adapter is unclear.
+
 ## 2026-05-26 - Add global build and flash runner
 
 Version impact: Minor

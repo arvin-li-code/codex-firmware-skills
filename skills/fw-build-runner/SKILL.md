@@ -1,6 +1,6 @@
 ---
 name: fw-build-runner
-description: Global firmware build and flash runner. Use when Codex needs to compile, rebuild, flash, or build-and-flash firmware across one or more project files or build entrypoints in an embedded repository, including CMake/Ninja/Make, ESP-IDF, Zephyr west, PlatformIO, STM32Cube, vendor SDKs, or custom scripts.
+description: Global firmware build and flash runner. Use when Codex needs to compile, rebuild, flash, or build-and-flash firmware across one or more project files or build entrypoints in an embedded repository, including Keil MDK/uVision, CMake/Ninja/Make, ESP-IDF, Zephyr west, PlatformIO, STM32Cube, vendor SDKs, or custom scripts.
 ---
 
 # Firmware Build Runner
@@ -40,7 +40,9 @@ If the user does not specify a mode, infer from the request. If still unclear, a
    - `Makefile`
    - `west.yml`
    - `platformio.ini`
+   - `.uvprojx` or `.uvproj`
    - ESP-IDF project files.
+   - Keil MDK/uVision project files.
    - STM32Cube project files.
    - Vendor SDK build scripts.
    - Existing project scripts such as `build.*`, `flash.*`, `upload.*`, `idf.py`, `west`, or `pio`.
@@ -52,7 +54,9 @@ If the user does not specify a mode, infer from the request. If still unclear, a
 4. Select the command profile from `references/build-flash-profiles.md` or project docs/scripts.
 5. Before flashing, confirm hardware assumptions:
    - Board/target.
+   - Keil target when using Keil.
    - Port/probe when required.
+   - Debug adapter/programmer when required.
    - Bootloader or flashing mode when required.
    - Whether flashing could overwrite a connected device.
 6. Run the command only after the project/target is clear.
@@ -93,12 +97,19 @@ Use these labels:
 - `FLASH_TARGET_MISMATCH`
 - `FLASH_FAILED`
 - `ENVIRONMENT_BLOCKED`
+- `KEIL_UV4_MISSING`
+- `KEIL_TARGET_AMBIGUOUS`
+- `KEIL_LICENSE_ERROR`
+- `KEIL_PACK_MISSING`
+- `KEIL_FLASH_ALGORITHM_ERROR`
+- `KEIL_DEBUG_ADAPTER_MISSING`
 - `UNKNOWN`
 
 ## Guardrails
 
 - Do not guess between multiple project files when flashing hardware.
 - Do not flash if board/target identity is unclear.
+- For Keil projects, do not flash if the `.uvprojx/.uvproj`, Keil target, connected board, or debug adapter is unclear.
 - Do not erase, mass-flash, or overwrite device storage unless the user explicitly requested it.
 - Prefer existing project scripts over inventing commands.
 - For `rebuild`, use the project's normal clean command. Do not delete arbitrary directories manually.

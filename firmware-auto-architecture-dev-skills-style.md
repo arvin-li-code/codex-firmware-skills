@@ -538,12 +538,14 @@ Use for:
 - Rebuild.
 - Flash.
 - Build then flash.
+- Keil MDK/uVision projects with `.uvprojx` or `.uvproj`.
 - Repositories with multiple firmware project files, apps, boards, or build entrypoints.
 
 Before flashing:
 
 - Confirm project entrypoint.
 - Confirm board/target.
+- Confirm Keil target when using Keil.
 - Confirm port/probe when needed.
 - Ask the user when multiple plausible projects or targets exist.
 

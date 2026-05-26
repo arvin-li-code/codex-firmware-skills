@@ -8,6 +8,33 @@ Use semantic versioning:
 - Minor: compatible new skills, optional artifacts, or new supported flows.
 - Patch: compatible wording, examples, or clarification changes.
 
+## 0.6.0 - Add Keil MDK/uVision build and flash support
+
+Version impact: Minor
+
+Reason:
+
+- Added Keil MDK/uVision as a first-class build/flash profile for `fw-build-runner`.
+- Supported Keil project detection through `.uvprojx`, `.uvproj`, `.uvoptx`, and `.uvopt`.
+- Added Keil command mapping for build, rebuild, flash, and build-flash.
+
+Changed files:
+
+- `skills/fw-build-runner/SKILL.md`: added Keil project detection, target confirmation, adapter confirmation, and Keil failure classes.
+- `references/build-flash-profiles.md`: added the Keil MDK/uVision profile.
+- `README.md`: updated `fw-build-runner` description.
+- `references/skill-registry.md`: bumped version and updated `fw-build-runner`.
+- `firmware-auto-architecture-dev-skills-style.md`: updated build runner architecture notes.
+
+Artifact impact:
+
+- Added skill-system version decision for Keil support.
+
+Migration notes:
+
+- Existing build/flash support remains compatible.
+- Keil flashing must confirm project file, target, board, and debug adapter before running.
+
 ## 0.5.0 - Add global build and flash runner
 
 Version impact: Minor

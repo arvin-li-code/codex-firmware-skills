@@ -1,6 +1,6 @@
 # Firmware Skills Architecture
 
-Current architecture version: `0.4.0`
+Current architecture version: `0.5.0`
 
 固件自动迭代 skill 系统，参考 `Jason-chen-coder/dev-skills` 的组织方式设计：
 
@@ -37,6 +37,7 @@ Current architecture version: `0.4.0`
 | `fw-arch-plan` | 为复杂功能、新项目或高风险重构生成架构方案 |
 | `fw-new-project` | 从零创建固件项目骨架 |
 | `fw-feature-iterate` | 在已有固件项目中迭代功能 |
+| `fw-build-runner` | 全局编译/重新编译/烧录/编译加烧录工具，支持一个仓库多个工程入口 |
 | `fw-refactor` | 在行为不变的前提下重构已有固件 |
 | `fw-debug-fix` | 假设驱动地复现、定位、修复固件问题 |
 | `fw-verify` | 固件完成前的构建、测试、硬件证据门禁 |
@@ -44,7 +45,6 @@ Current architecture version: `0.4.0`
 | `fw-finish` | 汇总变更、验证、残余风险和 Refs |
 | `fw-logbook` | 记录执行日志 |
 | `fw-change-record` | 记录固件项目变更点 |
-| `fw-build-runner` | 推断、确认并执行构建命令 |
 | `fw-skill-governance` | 记录 skill 新增/变更/删除，并判断版本升级级别 |
 
 ## Artifact 目录
@@ -177,9 +177,10 @@ fw-auto
 3. `fw-project-brief`
 4. `fw-intake`
 5. `fw-feature-iterate`
-6. `fw-verify`
-7. `fw-finish`
-8. `fw-skill-governance`
+6. `fw-build-runner`
+7. `fw-verify`
+8. `fw-finish`
+9. `fw-skill-governance`
 
 这样先把“已有项目功能迭代 + 可交接 + 可治理”跑通，再扩展新建项目、重构、debug、硬件专项检查。
 

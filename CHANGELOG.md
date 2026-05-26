@@ -8,6 +8,41 @@ Use semantic versioning:
 - Minor: compatible new skills, optional artifacts, or new supported flows.
 - Patch: compatible wording, examples, or clarification changes.
 
+## 0.5.0 - Add global build and flash runner
+
+Version impact: Minor
+
+Reason:
+
+- Implemented `fw-build-runner` as a global firmware build/flash tool skill.
+- Added support for build, rebuild, flash, and build-then-flash modes.
+- Added guidance for repositories with multiple firmware project files or build entrypoints.
+
+Added skill files:
+
+- `skills/fw-build-runner/SKILL.md`
+
+Added references:
+
+- `references/build-flash-profiles.md`
+
+Changed files:
+
+- `README.md`: moved `fw-build-runner` into the current usable skill set.
+- `references/skill-registry.md`: moved `fw-build-runner` from planned to MVP skills.
+- `skills/fw-auto/SKILL.md`: added routing for compile/rebuild/flash/build-flash requests.
+- `skills/fw-verify/SKILL.md`: added handoff to `fw-build-runner` for verification evidence.
+- `firmware-auto-architecture-dev-skills-style.md`: updated `fw-build-runner` responsibility.
+
+Artifact impact:
+
+- Added skill-system version decision for the global build/flash runner.
+
+Migration notes:
+
+- This is compatible because it adds a new implemented skill without changing existing skill behavior.
+- Use `fw-build-runner` before `fw-verify` when build or flash evidence is required.
+
 ## 0.4.0 - Prepare Git repository structure
 
 Version impact: Minor

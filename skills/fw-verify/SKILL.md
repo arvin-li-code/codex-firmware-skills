@@ -28,6 +28,8 @@ Check what is available and relevant:
 - Interface/API compatibility.
 - Flash, monitor, HIL, or manual hardware checks.
 
+Use `fw-build-runner` when verification requires build, rebuild, flash, or build-and-flash evidence.
+
 ## Output
 
 Write:

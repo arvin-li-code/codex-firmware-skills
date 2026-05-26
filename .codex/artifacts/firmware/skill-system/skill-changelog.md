@@ -1,5 +1,39 @@
 # Skill-System Changelog
 
+## 2026-05-26 - Add global build and flash runner
+
+Version impact: Minor
+Previous version: 0.4.0
+Next version: 0.5.0
+
+Changed skills:
+
+- `fw-build-runner`: added.
+- `fw-auto`: route compile/rebuild/flash/build-flash requests to `fw-build-runner`.
+- `fw-verify`: use `fw-build-runner` for build/flash evidence.
+
+Reason:
+
+- Build and flash are global operations used by all firmware workflows and must support repositories with multiple project files or targets.
+
+Affected workflows:
+
+- Feature iteration.
+- Verification.
+- Future new-project flow.
+- Future refactor flow.
+
+Artifact impact:
+
+- Added `skills/fw-build-runner/SKILL.md`.
+- Added `references/build-flash-profiles.md`.
+- Added `.codex/artifacts/firmware/skill-system/version-decision-global-build-flash-runner.md`.
+
+Migration notes:
+
+- Use `fw-build-runner` for build, rebuild, flash, and build-then-flash.
+- Ask the user before flashing when project, target, board, port, or probe is ambiguous.
+
 ## 2026-05-22 - Prepare Git repository structure
 
 Version impact: Minor

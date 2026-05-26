@@ -530,7 +530,22 @@ Record:
 
 Responsibility:
 
-Infer, confirm, and run build commands safely.
+Infer, confirm, and run firmware build/flash commands safely.
+
+Use for:
+
+- Build.
+- Rebuild.
+- Flash.
+- Build then flash.
+- Repositories with multiple firmware project files, apps, boards, or build entrypoints.
+
+Before flashing:
+
+- Confirm project entrypoint.
+- Confirm board/target.
+- Confirm port/probe when needed.
+- Ask the user when multiple plausible projects or targets exist.
 
 Classify failures:
 
@@ -541,6 +556,8 @@ Classify failures:
 - Generated files.
 - Environment.
 - Board/target mismatch.
+- Flash port missing.
+- Flash failed.
 
 ### 6.16 `fw-skill-governance`
 

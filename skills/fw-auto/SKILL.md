@@ -22,6 +22,7 @@ Recommend the next firmware skill. Do not edit code, run builds, or replace anot
 - Bug, crash, peripheral failure, boot failure, OTA failure, timing, memory, or hardware anomaly: recommend `fw-debug-fix`.
 - User wants onboarding, handoff, project purpose, usage, or architecture summary: recommend `fw-project-brief`.
 - User asks whether work is ready or complete: recommend `fw-verify`.
+- User asks to compile, rebuild, flash, upload, program a board, or build then flash: recommend `fw-build-runner`.
 - User asks to summarize final state, commit, release, or hand off completed work: recommend `fw-finish`.
 - User adds, removes, renames, or changes a skill, workflow, trigger, artifact schema, README, registry, or version policy: recommend `fw-skill-governance`.
 - Requirement or target is unclear: recommend `fw-intake`.

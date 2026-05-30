@@ -8,6 +8,42 @@ Use semantic versioning:
 - Minor: compatible new skills, optional artifacts, or new supported flows.
 - Patch: compatible wording, examples, or clarification changes.
 
+## 0.7.0 - Add generated-output sanity check
+
+Version impact: Minor
+
+Reason:
+
+- Added a global skill to check generated files/code after creation or edits.
+- Added a deterministic script to catch mojibake, NUL bytes, malformed Markdown fences, invalid skill frontmatter, and skill name/folder mismatches.
+- Added the generated-output check to local validation and GitHub Actions.
+
+Added skill files:
+
+- `skills/fw-output-sanity-check/SKILL.md`
+
+Added scripts:
+
+- `scripts/check-generated-output.ps1`
+
+Changed files:
+
+- `AGENTS.md.template`: added generated-output check as a global rule.
+- `CONTRIBUTING.md`: added generated-output check to contribution validation.
+- `README.md`: added `fw-output-sanity-check` and validation command.
+- `references/skill-registry.md`: added `fw-output-sanity-check` and bumped version.
+- `skills/fw-auto/SKILL.md`: added routing for generated-output sanity checks.
+- `.github/workflows/validate-skills.yml`: runs both skill validation and generated-output sanity check.
+
+Artifact impact:
+
+- Added skill-system version decision for generated-output sanity checks.
+
+Migration notes:
+
+- Run `.\scripts\check-generated-output.ps1` after generating or editing files.
+- Run it before committing generated skill files or documentation.
+
 ## 0.6.0 - Add Keil MDK/uVision build and flash support
 
 Version impact: Minor

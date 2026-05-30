@@ -13,4 +13,6 @@ jobs:
 
       - name: Validate skill frontmatter
         shell: pwsh
-        run: ./scripts/validate-skills.ps1
+        run: |
+          ./scripts/validate-skills.ps1
+          ./scripts/check-generated-output.ps1

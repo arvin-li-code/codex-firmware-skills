@@ -1,5 +1,38 @@
 # Skill-System Changelog
 
+## 2026-05-30 - Add generated-output sanity check
+
+Version impact: Minor
+Previous version: 0.6.0
+Next version: 0.7.0
+
+Changed skills:
+
+- `fw-output-sanity-check`: added.
+- `fw-auto`: added routing for generated-output sanity checks.
+
+Reason:
+
+- Generated files and code need a global post-generation self-check to catch mojibake, malformed Markdown, invalid skill frontmatter, and obvious output corruption.
+
+Affected workflows:
+
+- All file/code generation workflows.
+- Skill-system maintenance.
+- Documentation generation.
+
+Artifact impact:
+
+- Added `skills/fw-output-sanity-check/SKILL.md`.
+- Added `scripts/check-generated-output.ps1`.
+- Added `.codex/artifacts/firmware/skill-system/version-decision-output-sanity-check.md`.
+- Updated GitHub Actions to run the generated-output sanity check.
+
+Migration notes:
+
+- Run `.\scripts\check-generated-output.ps1` after generating or editing files.
+- Run `.\scripts\validate-skills.ps1` and `.\scripts\check-generated-output.ps1` before committing skill changes.
+
 ## 2026-05-26 - Add Keil MDK/uVision build and flash support
 
 Version impact: Minor

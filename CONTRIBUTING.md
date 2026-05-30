@@ -18,6 +18,7 @@ Use `fw-skill-governance` rules:
 
 ```powershell
 .\scripts\validate-skills.ps1
+.\scripts\check-generated-output.ps1
 ```
 
 ## Skill Design Rules
@@ -27,6 +28,7 @@ Use `fw-skill-governance` rules:
 - Move shared policies into `references/`.
 - Prefer artifact handoff over hidden chat context.
 - Use terminal statuses for blocked or gated flows.
+- Run generated-output sanity checks before commit.
 
 ## Versioning
 

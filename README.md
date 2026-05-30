@@ -1,6 +1,6 @@
 # Firmware Skills Architecture
 
-Current architecture version: `0.6.0`
+Current architecture version: `0.7.0`
 
 固件自动迭代 skill 系统，参考 `Jason-chen-coder/dev-skills` 的组织方式设计：
 
@@ -38,6 +38,7 @@ Current architecture version: `0.6.0`
 | `fw-new-project` | 从零创建固件项目骨架 |
 | `fw-feature-iterate` | 在已有固件项目中迭代功能 |
 | `fw-build-runner` | 全局编译/重新编译/烧录/编译加烧录工具，支持 Keil MDK/uVision 和一个仓库多个工程入口 |
+| `fw-output-sanity-check` | 全局生成物自检，检查乱码、Markdown 结构、skill frontmatter 和明显异常输出 |
 | `fw-refactor` | 在行为不变的前提下重构已有固件 |
 | `fw-debug-fix` | 假设驱动地复现、定位、修复固件问题 |
 | `fw-verify` | 固件完成前的构建、测试、硬件证据门禁 |
@@ -178,9 +179,10 @@ fw-auto
 4. `fw-intake`
 5. `fw-feature-iterate`
 6. `fw-build-runner`
-7. `fw-verify`
-8. `fw-finish`
-9. `fw-skill-governance`
+7. `fw-output-sanity-check`
+8. `fw-verify`
+9. `fw-finish`
+10. `fw-skill-governance`
 
 这样先把“已有项目功能迭代 + 可交接 + 可治理”跑通，再扩展新建项目、重构、debug、硬件专项检查。
 
@@ -210,6 +212,7 @@ fw-auto
 
 ```powershell
 .\scripts\validate-skills.ps1
+.\scripts\check-generated-output.ps1
 ```
 
 初始化和首次提交：
@@ -248,3 +251,4 @@ git push -u origin main
 - 每个 `skills/*/SKILL.md` 必须有 frontmatter。
 - frontmatter 必须包含 `name` 和 `description`。
 - `name` 必须和 skill 文件夹名一致。
+- 生成物自检会检查乱码迹象、NUL 字节、Markdown 代码块闭合和 skill frontmatter。

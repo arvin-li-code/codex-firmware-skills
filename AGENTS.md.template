@@ -11,6 +11,7 @@ Use this template as an always-on project instruction file when installing or de
 - Do not overwrite user changes.
 - Keep `brief/project-brief.md` current enough for a new maintainer or agent to take over.
 - Use `fw-skill-governance` for any skill addition, removal, rename, trigger change, artifact schema change, terminal-status change, or user-facing workflow change.
+- Use `fw-output-sanity-check` after generating or editing files/code to catch mojibake, malformed Markdown, invalid skill frontmatter, and obvious output corruption before claiming completion.
 
 ## Required Artifact Discipline
 
@@ -27,6 +28,20 @@ Skill-system maintenance should update:
 references/skill-registry.md
 CHANGELOG.md
 README.md
+```
+
+## Generated Output Checks
+
+After generating or editing files, run:
+
+```powershell
+.\scripts\check-generated-output.ps1
+```
+
+For skill files, also run:
+
+```powershell
+.\scripts\validate-skills.ps1
 ```
 
 ## Version Discipline

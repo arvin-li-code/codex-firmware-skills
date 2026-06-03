@@ -69,13 +69,6 @@ function Test-TextFile {
     return $false
 }
 
-function Test-CodeFenceBalance {
-    param([string]$Content)
-
-    $matches = [regex]::Matches($Content, '(?m)^```')
-    return (($matches.Count % 2) -eq 0)
-}
-
 $files = New-Object System.Collections.Generic.List[System.IO.FileInfo]
 $allFiles = Get-ChildItem -Path $root -Recurse -File
 
@@ -101,7 +94,7 @@ foreach ($file in $files) {
         }
     }
 
-    $content = Get-Content -Raw -Path $file.FullName
+    $content = Get-Content -Raw -Encoding UTF8 -Path $file.FullName
 
     foreach ($pattern in $mojibakePatterns) {
         if ($content.Contains($pattern)) {
@@ -125,8 +118,15 @@ foreach ($file in $files) {
     }
 
     if ($isMarkdown) {
-        if (-not (Test-CodeFenceBalance -Content $content)) {
-            $failures.Add("Unbalanced Markdown code fence: " + $relative)
+        $fenceCount = 0
+        $contentLines = $content -split '\r?\n'
+        foreach ($contentLine in $contentLines) {
+            if ($contentLine.StartsWith('```')) {
+                $fenceCount = $fenceCount + 1
+            }
+        }
+        if (($fenceCount % 2) -ne 0) {
+            $failures.Add("Unbalanced Markdown code fence count " + $fenceCount + ": " + $relative)
         }
     }
 

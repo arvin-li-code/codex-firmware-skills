@@ -8,6 +8,29 @@ Use semantic versioning:
 - Minor: compatible new skills, optional artifacts, or new supported flows.
 - Patch: compatible wording, examples, or clarification changes.
 
+## 0.7.2 - Polish bilingual GitHub README
+
+Version impact: Patch
+
+Reason:
+
+- Reworked README into a bilingual GitHub landing page inspired by `dev-skills`.
+- Added badges, quick start, common paths, how-to-talk-to-Codex prompts, build/flash support, artifacts, validation, FAQ, and clearer ready/planned skill sections.
+
+Changed files:
+
+- `README.md`
+- `references/skill-registry.md`
+
+Artifact impact:
+
+- Added skill-system version decision for bilingual README polish.
+
+Migration notes:
+
+- Documentation-only change.
+- No skill behavior changed.
+
 ## 0.7.1 - Clarify public README for GitHub reuse
 
 Version impact: Patch

@@ -21,7 +21,7 @@ This skill is not tied to one firmware workflow. Use it after any file/code gene
 1. Identify the files created or edited in the current turn.
 2. Re-read those files from disk.
 3. Check for obvious corruption:
-   - Mojibake patterns such as `鍥`, `涓`, `绋`, `�`, `ï¿½`, `Ã`, `Â`.
+   - Mojibake or replacement-character patterns detected by the checker.
    - Unexpected NUL bytes.
    - Broken headings, tables, or code fences.
    - Truncated frontmatter.

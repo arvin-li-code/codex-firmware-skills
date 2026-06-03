@@ -1,5 +1,32 @@
 # Skill-System Changelog
 
+## 2026-06-03 - Polish bilingual GitHub README
+
+Version impact: Patch
+Previous version: 0.7.1
+Next version: 0.7.2
+
+Changed skills:
+
+- No skill behavior changed.
+
+Reason:
+
+- Reworked README into a bilingual GitHub landing page inspired by `dev-skills`, with badges, quick start, common paths, prompt examples, build/flash support, validation, and FAQ.
+
+Affected workflows:
+
+- User onboarding.
+- Repository publication.
+
+Artifact impact:
+
+- Added `.codex/artifacts/firmware/skill-system/version-decision-bilingual-readme-polish.md`.
+
+Migration notes:
+
+- Documentation-only compatibility update.
+
 ## 2026-06-03 - Clarify public README for GitHub reuse
 
 Version impact: Patch

@@ -8,6 +8,30 @@ Use semantic versioning:
 - Minor: compatible new skills, optional artifacts, or new supported flows.
 - Patch: compatible wording, examples, or clarification changes.
 
+## 0.7.1 - Clarify public README for GitHub reuse
+
+Version impact: Patch
+
+Reason:
+
+- Rewrote README as a public GitHub entrypoint.
+- Clearly separated implemented skills from planned skills.
+- Added install, validation, existing-project workflow, build/flash, and generated-output safety instructions.
+
+Changed files:
+
+- `README.md`
+- `references/skill-registry.md`
+
+Artifact impact:
+
+- Added skill-system version decision for README publication cleanup.
+
+Migration notes:
+
+- No skill behavior changed.
+- This is a documentation-only compatibility update.
+
 ## 0.7.0 - Add generated-output sanity check
 
 Version impact: Minor

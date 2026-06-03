@@ -1,199 +1,42 @@
-# Firmware Skills Architecture
+# Codex Firmware Skills
 
-Current architecture version: `0.7.0`
+Current architecture version: `0.7.1`
 
-固件自动迭代 skill 系统，参考 `Jason-chen-coder/dev-skills` 的组织方式设计：
+Reusable Codex skills for firmware automation: project discovery, handoff briefs, feature iteration, Keil-aware build/flash workflows, verification, skill governance, and generated-output sanity checks.
 
-- 一个入口推荐器。
-- 多个单职责 skill。
-- 通过 artifact 松耦合。
-- 完成前有验证和评审门禁。
-- skill 自身的新增和变更也要记录并判断版本影响。
+## What Is Ready
 
-## 核心流程
+The following skills are implemented and validated:
 
-系统覆盖三条互相独立的大流程：
-
-| 流程 | 入口场景 | 主 skill |
-|---|---|---|
-| 新建固件项目 | 从零创建项目、初始化 SDK/board 工程 | `fw-new-project` |
-| 已有项目功能迭代 | 给已有固件加功能、改行为、接驱动、改协议 | `fw-feature-iterate` |
-| 已有项目重构 | 不改变行为地拆模块、整理架构、抽象驱动层 | `fw-refactor` |
-
-三条流程共享小工具 skill，但不能互相污染：
-
-- 功能迭代不能顺手做无关重构。
-- 重构不能偷偷改变行为。
-- 新建项目不能默认背负旧项目兼容逻辑。
-
-## Skill 清单
-
-| Skill | 一句话职责 |
+| Skill | Purpose |
 |---|---|
-| `fw-auto` | 入口推荐器，只判断下一步，不直接执行 |
-| `fw-intake` | 把模糊固件需求转成结构化输入 |
-| `fw-project-discovery` | 读取已有项目的 build、board、SDK、目录、配置、测试、接口等事实 |
-| `fw-project-brief` | 生成接手人快速理解项目用途、功能、架构和使用方式的简报 |
-| `fw-arch-plan` | 为复杂功能、新项目或高风险重构生成架构方案 |
-| `fw-new-project` | 从零创建固件项目骨架 |
-| `fw-feature-iterate` | 在已有固件项目中迭代功能 |
-| `fw-build-runner` | 全局编译/重新编译/烧录/编译加烧录工具，支持 Keil MDK/uVision 和一个仓库多个工程入口 |
-| `fw-output-sanity-check` | 全局生成物自检，检查乱码、Markdown 结构、skill frontmatter 和明显异常输出 |
-| `fw-refactor` | 在行为不变的前提下重构已有固件 |
-| `fw-debug-fix` | 假设驱动地复现、定位、修复固件问题 |
-| `fw-verify` | 固件完成前的构建、测试、硬件证据门禁 |
-| `fw-review` | 固件专项评审，检查硬件、并发、资源、配置、可回滚性 |
-| `fw-finish` | 汇总变更、验证、残余风险和 Refs |
-| `fw-logbook` | 记录执行日志 |
-| `fw-change-record` | 记录固件项目变更点 |
-| `fw-skill-governance` | 记录 skill 新增/变更/删除，并判断版本升级级别 |
+| `fw-auto` | Recommend the next firmware workflow skill. |
+| `fw-project-discovery` | Inspect an existing firmware project and generate project maps. |
+| `fw-project-brief` | Generate a human-readable handoff brief for maintainers or future agents. |
+| `fw-intake` | Turn unclear firmware requirements into structured inputs. |
+| `fw-feature-iterate` | Implement focused behavior changes in an existing firmware project. |
+| `fw-build-runner` | Build, rebuild, flash, or build-and-flash firmware, including Keil MDK/uVision projects. |
+| `fw-output-sanity-check` | Check generated files for mojibake, malformed Markdown, invalid skill frontmatter, and obvious corruption. |
+| `fw-verify` | Collect firmware verification evidence before claiming work is ready. |
+| `fw-finish` | Summarize final status, changes, evidence, risks, and artifact refs. |
+| `fw-skill-governance` | Record skill-system changes and semantic version decisions. |
 
-## Artifact 目录
+## Planned Skills
 
-建议所有中间产物放在项目内：
+These are referenced by the architecture but are not implemented yet:
 
-```text
-.codex/artifacts/firmware/
-  intake/
-  plans/
-  brief/
-    project-brief.md
-  maps/
-    project-map.md
-    hardware-map.md
-    interface-map.md
-  logs/
-    session-log.md
-  changes/
-  verification/
-  reviews/
-  finish/
-  skill-system/
-    skill-registry.md
-    skill-changelog.md
-    version-decision-<slug>.md
-```
-
-## 推荐链路
-
-新建项目：
-
-```text
-fw-auto
--> fw-intake
--> fw-arch-plan
--> fw-new-project
--> fw-build-runner
--> fw-project-discovery
--> fw-project-brief
--> fw-verify
--> fw-review
--> fw-finish
-```
-
-已有项目功能迭代：
-
-```text
-fw-auto
--> fw-project-discovery
--> fw-project-brief when missing or stale
--> fw-intake
--> optional fw-arch-plan
--> fw-feature-iterate
--> fw-build-runner
--> fw-verify
--> fw-review
--> fw-change-record
--> fw-project-brief if behavior/use/architecture changed
--> fw-finish
-```
-
-已有项目重构：
-
-```text
-fw-auto
--> fw-project-discovery
--> fw-project-brief when missing or stale
--> fw-refactor
--> fw-regression-guard
--> fw-verify
--> fw-review
--> fw-change-record
--> fw-project-brief if architecture/use changed
--> fw-finish
-```
-
-skill 系统自身变更：
-
-```text
-fw-auto
--> fw-skill-governance
--> classify version impact
--> update skill registry
--> update README/architecture if user-facing
--> write skill changelog
--> fw-review
--> fw-finish
-```
-
-## `fw-project-brief` 的定位
-
-`fw-project-discovery` 是机器视角：找事实、命令、配置、路径、模块关系。
-
-`fw-project-brief` 是接手视角：把项目讲清楚，让下一个人或 agent 快速知道：
-
-- 项目是干什么的。
-- 运行在什么硬件上。
-- 核心功能怎么用。
-- 启动和运行流程是什么。
-- 主要模块在哪里。
-- 怎么 build、flash、monitor、debug。
-- 改功能通常从哪里入手。
-- 哪些区域风险高。
-
-## Skill 变更和版本规则
-
-新增、删除、重命名、改变触发条件、改变 artifact schema、改变主流程顺序，都必须走 `fw-skill-governance`。
-
-版本规则：
-
-| 版本级别 | 什么时候升级 |
+| Skill | Planned Purpose |
 |---|---|
-| Major | 破坏兼容：删除/重命名 skill、改变必需 artifact 路径、改变 terminal status 含义、主流程顺序破坏旧用法 |
-| Minor | 兼容新增：新增可选 skill、新增可选 artifact、新增可跳过的验证项、新增支持框架 |
-| Patch | 兼容修正：文字澄清、示例修复、补充触发词、不改变路由和产物格式 |
+| `fw-arch-plan` | Produce architecture plans for complex firmware work. |
+| `fw-new-project` | Create new firmware project skeletons. |
+| `fw-refactor` | Refactor firmware while preserving behavior. |
+| `fw-debug-fix` | Run hypothesis-driven firmware debugging from field data. |
+| `fw-review` | Perform firmware-specific code review. |
+| `fw-logbook` | Maintain chronological workflow logs. |
+| `fw-change-record` | Record firmware project changes. |
+| `fw-regression-guard` | Define behavior-preservation checks for risky changes. |
 
-例子：
-
-- 新增 `fw-project-brief`，作为推荐的交接简报，不破坏旧流程：Minor。
-- 强制所有已有项目流程必须先生成 `fw-project-brief` 才能编辑：可能是 Major。
-- 澄清 `fw-project-brief` 和 `fw-project-discovery` 的区别：Patch。
-
-## 当前最小可用版本
-
-第一版建议先写：
-
-1. `fw-auto`
-2. `fw-project-discovery`
-3. `fw-project-brief`
-4. `fw-intake`
-5. `fw-feature-iterate`
-6. `fw-build-runner`
-7. `fw-output-sanity-check`
-8. `fw-verify`
-9. `fw-finish`
-10. `fw-skill-governance`
-
-这样先把“已有项目功能迭代 + 可交接 + 可治理”跑通，再扩展新建项目、重构、debug、硬件专项检查。
-
-## 主要文档
-
-- [Firmware Auto-Iteration Skill Architecture](./firmware-auto-architecture-dev-skills-style.md)
-- [Original Firmware Skill Map](./firmware-skill-map.md)
-
-## Git 仓库使用方式
-
-本目录已经按可上传 GitHub 的仓库形态组织：
+## Repository Layout
 
 ```text
 .
@@ -201,54 +44,170 @@ fw-auto
   CHANGELOG.md
   CONTRIBUTING.md
   AGENTS.md.template
-  .gitignore
   .github/workflows/validate-skills.yml
-  scripts/validate-skills.ps1
   references/
+  scripts/
   skills/
 ```
 
-本地校验：
+Important folders:
+
+- `skills/`: implemented Codex skills.
+- `references/`: shared workflow policies, artifact schema, build/flash profiles, and versioning rules.
+- `scripts/`: local validation scripts.
+- `.codex/artifacts/firmware/skill-system/`: governance records for skill-system changes.
+
+## Install Locally
+
+Clone the repository:
+
+```powershell
+git clone https://github.com/arvin-li-code/codex-firmware-skills.git
+cd codex-firmware-skills
+```
+
+Install the implemented skills into Codex:
+
+```powershell
+Copy-Item -Path .\skills\fw-* -Destination $HOME\.codex\skills -Recurse -Force
+```
+
+Restart or open a new Codex session so the newly installed skills can be discovered.
+
+## Validate
+
+Run these checks before using or publishing changes:
 
 ```powershell
 .\scripts\validate-skills.ps1
 .\scripts\check-generated-output.ps1
 ```
 
-初始化和首次提交：
+The checks verify:
 
-```powershell
-git init -b main
-git add .
-git commit -m "feat: initialize firmware skills"
-```
+- Every `skills/*/SKILL.md` has valid frontmatter.
+- Skill `name` matches the folder name.
+- Generated text files do not contain obvious mojibake or NUL bytes.
+- Markdown code fences are balanced.
+- Skill files are structurally valid.
 
-关联 GitHub 远端并上传：
+GitHub Actions runs the same validation on push and pull request.
 
-```powershell
-git remote add origin https://github.com/<user>/<repo>.git
-git push -u origin main
-```
+## Typical Existing-Project Workflow
 
-如果仓库已经存在 `.git`，跳过 `git init -b main`。
-
-## GitHub Actions
-
-仓库包含一个轻量 CI：
+Use this workflow first. It is the currently supported MVP path:
 
 ```text
-.github/workflows/validate-skills.yml
+fw-auto
+-> fw-project-discovery
+-> fw-project-brief
+-> fw-intake
+-> fw-feature-iterate
+-> fw-build-runner
+-> fw-output-sanity-check
+-> fw-verify
+-> fw-finish
 ```
 
-它会在 push 和 pull request 时运行：
+Example prompts:
+
+```text
+Use fw-project-discovery to understand this firmware project.
+```
+
+```text
+Use fw-project-brief to generate a handoff brief for this project.
+```
+
+```text
+Use fw-feature-iterate to add: <feature request>.
+Only make the focused behavior change. Do not perform unrelated refactor.
+```
+
+```text
+Use fw-build-runner to build and flash this Keil project.
+If there are multiple .uvprojx targets, ask me before flashing.
+```
+
+```text
+Use fw-verify to collect build/test/flash evidence and skipped-check reasons.
+```
+
+```text
+Use fw-finish to summarize changes, verification evidence, residual risk, and suggested commit message.
+```
+
+## Build And Flash Support
+
+`fw-build-runner` supports these modes:
+
+| Mode | Meaning |
+|---|---|
+| `build` | Compile without forcing a clean rebuild. |
+| `rebuild` | Clean or force rebuild, then compile. |
+| `flash` | Program the target without rebuilding unless required by the tool. |
+| `build-flash` | Build first, then flash only if build succeeds. |
+
+Supported profiles include:
+
+- Keil MDK/uVision: `.uvprojx`, `.uvproj`, `.uvoptx`, `.uvopt`.
+- ESP-IDF: `idf.py`.
+- Zephyr: `west`.
+- PlatformIO: `pio`.
+- CMake, Ninja, Make.
+- STM32Cube/vendor SDK projects.
+- Custom build/flash scripts.
+
+For Keil projects, the runner must confirm project file, target, board, and debug adapter before flashing.
+
+## Generated Output Safety
+
+Use `fw-output-sanity-check` after Codex generates or edits files.
+
+For this repository, run:
 
 ```powershell
-./scripts/validate-skills.ps1
+.\scripts\check-generated-output.ps1
 ```
 
-当前检查内容：
+This is intended to catch common problems such as mojibake, broken Markdown fences, invalid skill frontmatter, and corrupted generated files before committing or publishing.
 
-- 每个 `skills/*/SKILL.md` 必须有 frontmatter。
-- frontmatter 必须包含 `name` 和 `description`。
-- `name` 必须和 skill 文件夹名一致。
-- 生成物自检会检查乱码迹象、NUL 字节、Markdown 代码块闭合和 skill frontmatter。
+## Artifacts
+
+Firmware workflows should store handoff data under:
+
+```text
+.codex/artifacts/firmware/
+```
+
+Common artifact paths:
+
+```text
+.codex/artifacts/firmware/maps/project-map.md
+.codex/artifacts/firmware/maps/hardware-map.md
+.codex/artifacts/firmware/maps/interface-map.md
+.codex/artifacts/firmware/brief/project-brief.md
+.codex/artifacts/firmware/intake/<slug>.md
+.codex/artifacts/firmware/changes/<slug>.md
+.codex/artifacts/firmware/verification/<slug>.md
+.codex/artifacts/firmware/finish/<slug>.md
+```
+
+## Versioning
+
+Skill-system changes use semantic versioning:
+
+- Major: breaking routing, required artifact schema, terminal-status meaning, or skill names.
+- Minor: compatible new skill, optional artifact, optional workflow branch, or new supported framework.
+- Patch: wording, examples, trigger clarification, or typo fixes without behavior/schema changes.
+
+Use `fw-skill-governance` when adding, removing, renaming, or changing a skill.
+
+## Documentation
+
+- [Architecture](./firmware-auto-architecture-dev-skills-style.md)
+- [Original Skill Map](./firmware-skill-map.md)
+- [Build And Flash Profiles](./references/build-flash-profiles.md)
+- [Skill Registry](./references/skill-registry.md)
+- [Versioning Policy](./references/versioning-policy.md)
+- [Contributing](./CONTRIBUTING.md)

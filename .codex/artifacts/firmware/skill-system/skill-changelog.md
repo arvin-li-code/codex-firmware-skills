@@ -1,5 +1,32 @@
 # Skill-System Changelog
 
+## 2026-06-03 - Clarify public README for GitHub reuse
+
+Version impact: Patch
+Previous version: 0.7.0
+Next version: 0.7.1
+
+Changed skills:
+
+- No skill behavior changed.
+
+Reason:
+
+- Rewrote README as a public GitHub entrypoint with clear implemented/planned skill sections, install instructions, validation steps, and usage examples.
+
+Affected workflows:
+
+- User onboarding.
+- Repository publication.
+
+Artifact impact:
+
+- Added `.codex/artifacts/firmware/skill-system/version-decision-public-readme-cleanup.md`.
+
+Migration notes:
+
+- Documentation-only compatibility update.
+
 ## 2026-05-30 - Add generated-output sanity check
 
 Version impact: Minor

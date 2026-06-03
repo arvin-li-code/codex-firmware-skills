@@ -1,6 +1,6 @@
 # Firmware Skill Registry
 
-Current architecture version: `0.7.0`
+Current architecture version: `0.7.1`
 
 ## MVP Skills
 
